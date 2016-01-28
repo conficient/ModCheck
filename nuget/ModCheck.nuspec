@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+		<id>ModCheck</id>
+		<version>0.0.0</version>
+		<authors>Howard Richards</authors>
+		<owners>Howard Richards</owners>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>Modulus Check Library for UK Banks</description>
+		<releaseNotes>-</releaseNotes>
+		<copyright>Copyright 2013</copyright>
+		<tags>JavaScript BACS Modulus Check</tags>
+		<dependencies>
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="..\dist\ModCheck.js" target="content\scripts" />
+	</files>
+</package>

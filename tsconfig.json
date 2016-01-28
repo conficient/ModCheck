@@ -1,0 +1,16 @@
+﻿{
+  "version": "1.7.6",
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "declaration": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "noLib": false,
+    "preserveConstEnums": true,
+    "suppressImplicitAnyIndexErrors": true
+  },
+  "files": [
+    "./src/ModCheck.ts"
+  ]
+}

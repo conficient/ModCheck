@@ -1,0 +1,21 @@
+{
+  "name": "ModCheck",
+  "version": "0.0.1",
+  "main": [
+    "dist/ModCheck.js"
+  ],
+  "dependencies": {
+  },
+  "ignore": [
+    "**/.*",
+    "nuget",
+    "Scripts",
+    "Tests",
+    ".travis.yml",
+    "gruntfile.js",
+    "ModCheck.sln",
+    "package.json",
+    "packages.config",
+    "*.md"
+  ]
+}
