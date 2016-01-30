@@ -1,16 +1,22 @@
-﻿{
-  "version": "1.7.6",
+{
   "compilerOptions": {
-    "target": "es5",
-    "module": "amd",
-    "declaration": true,
     "noImplicitAny": false,
-    "removeComments": true,
-    "noLib": false,
-    "preserveConstEnums": true,
-    "suppressImplicitAnyIndexErrors": true
+    "noEmitOnError": true,
+    "declaration": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "module": "amd",
+    "target": "es5",
+    "rootDir": "src",
+    "outDir": "artifacts/dev",
+    "experimentalDecorators": true
   },
-  "files": [
-    "./src/ModCheck.ts"
+  "exclude": [
+    "artifacts",
+    "node_modules",
+    "bower_components",
+    "wwwroot",
+    "dist",
+    "tests"
   ]
 }

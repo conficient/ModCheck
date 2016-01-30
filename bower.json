@@ -1,21 +1,24 @@
 {
   "name": "ModCheck",
-  "version": "0.0.1",
-  "main": [
-    "dist/ModCheck.js"
-  ],
+  "private": true,
   "dependencies": {
+    "requirejs": "~2.1.22",
+    "text": "requirejs-text#~2.0.14"
   },
-  "ignore": [
-    "**/.*",
-    "nuget",
-    "Scripts",
-    "Tests",
-    ".travis.yml",
-    "gruntfile.js",
-    "ModCheck.sln",
-    "package.json",
-    "packages.config",
-    "*.md"
-  ]
+  "devDependencies": {
+  },
+  "exportsOverride": {
+  },
+  "authors": [ "Howard Richards" ],
+  "homepage": "https://www.github.com/conficient",
+  "description": "Modulus Check library for UK Bank and Sort code validation",
+  "license": "Apache-2.0",
+  "ignore": [    
+    "*",
+    "!dist/**/*"
+  ],
+  "version": "0.0.1",
+  "typescript": {
+        "definition": "dist/typings/ModCheck.d.ts"
+    }
 }

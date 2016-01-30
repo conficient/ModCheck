@@ -1,100 +1,125 @@
-﻿/*global module:false*/
+﻿/// <binding AfterBuild='devAfterBuild' ProjectOpened='initProject' />
+
+/*
+This file in the main entry point for defining grunt tasks and using grunt plugins.
+Click here to learn more. http://go.microsoft.com/fwlink/?LinkID=513275&clcid=0x409
+*/
 module.exports = function (grunt) {
-	"use strict";
-	grunt.initConfig({
-		pkg: grunt.file.readJSON("package.json"),
-		meta: {
-			banner: "/*=============================================================================\n" +
-			        " *   Author:      Howard Richards - @conficient                                \n" +
-			        " *                                                                             \n" +
-			        " *   Description: Modulus Check Library for JavaScript                         \n" +
-			        " *=============================================================================*/\n\n"
-		},
-		concat: {
-			options: {
-				separator: ";",
-				banner: "<%= meta.banner %>"
-			},
-			dist: {
-				src: [
-					"<%= meta.banner %>",
-					"src/ModCheck.start.frag",
-					"src/ModCheck.js",
-					"src/ModCheck.end.frag"
-				],
-				dest: "dist/<%= pkg.name %>.js"
-			} /*,
-			css: {
-				src: [
-					"<%= meta.banner %>",
-					"css/*.css"
-				],
-				dest: "dist/<%= pkg.name %>.css",
-				options: { separator: '' }
-			}*/
-		},
-		uglify: {
-			options: {
-				banner: "<%= meta.banner %>"
-			},
-			dist: {
-				files: {
-					"dist/<%= pkg.name %>.min.js": ["<%= concat.dist.dest %>"]
-				}
-			}
-		},
-		qunit: {
-			files: ["Tests/**/*.html"]
-		},
-		jshint: {
-			files: ["src/**/*.js", "Tests/**/*.js", "!Tests/qunit*.js"],
-			options: {
-				globals: {
-					jQuery: true,
-					ko: true,
-				}
-			}
-		},
-		watch: {
-			clear: {
-				files: ["src/**/*.js", "Tests/**/*.js"],
-				tasks: ["clear", "concat", "test", "jshint"]
-			}
-		}
-	});
+    grunt.loadNpmTasks('grunt-bower-task');
+    grunt.loadNpmTasks('grunt-sync');
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('dts-generator');
+    grunt.loadNpmTasks("grunt-ts");
+    grunt.loadNpmTasks('grunt-contrib-jasmine');
+    grunt.loadNpmTasks('grunt-tsd');
 
-	grunt.registerTask("nuget", "create nuget package", function () {
-		var done = this.async();
-		grunt.util.spawn({
-			cmd: "nuget\\nuget",
-			args: [
-				"pack",
-				"nuget\\ModCheck.nuspec",
+    grunt.registerTask("initProject", ["clean:dev", "bower:install", "tsd:refresh"]);
+    grunt.registerTask('devAfterBuild', ["sync:default", "dtsGenerator:default"]);
+    grunt.registerTask('devWatch', ["devAfterBuild", "watch:default"]);
+    grunt.registerTask("devBuildAndTest", ["devAfterBuild", "jasmine:tests"]);
+    grunt.registerTask("distBuild", ["initProject", "ts:distBuild", "devBuildAndTest"]);
 
-				"-OutputDirectory",
-				"dist",
+    grunt.initConfig({
+        ts: {
+            distBuild: {
+                tsconfig: true,
+                options: {
+                    fast: "never",
+                }
+            }
+        },
+        bower: {
+            install: {
+                options: {
+                    targetDir: "wwwroot/libs",
 
-				"-Version",
-				grunt.config.get("pkg").version
-			]
-		}, function (error, result) {
-			if (error) {
-				grunt.log.error(error);
-			} else {
-				grunt.log.write(result);
-			}
-			done();
-		});
-	});
+                }
+            }
+        },
+        watch: { /* when typescript files are compiled with vs, then sync to wwwroot */
+            default: {
+                files: ["artifacts/dev/**/*"],
+                tasks: ["devAfterBuild"],
+                options: {
+                    debounceDelay: 100,
+                },
+            },
+        },
+        clean: {
+            dev: ["artifacts", "dist"]
+        },
+        sync: {
+            default: {
+                files: [{
+                    cwd: "src",
+                    src: ["**/*.d.ts"],
+                    dest: "dist/typings",
+                },
+                {
+                    cwd: "src",
+                    src: ["**/*.less", "**/*.html"],
+                    dest: "dist/src",
+                },
+                {
+                    cwd: "artifacts/dev",
+                    src: ["**/*.js"],
+                    dest: "dist/src",
+                }
+                ],
+                pretend: false,
+                verbose: true
+            }
+        },
+        dtsGenerator: {
+            options: {
+                name: 'ModCheck',
+                baseDir: 'artifacts/dev',
+                //  project:"artifacts/dev",
+                //  src:["artifacts/dev/**/*.ts","typings/tsd.d.ts"],
+                out: 'dist/typings/ModCheck.d.ts'
+                //  exclude: ["typings/q/*.d.ts"],
+                //  main: 'ModCheck/index',
+                //  externs: ["./koExtensions/knockoutExtensions.d.ts", "./utils/utils.d.ts"]
 
-	grunt.loadNpmTasks("grunt-contrib-uglify");
-	grunt.loadNpmTasks("grunt-contrib-jshint");
-	grunt.loadNpmTasks("grunt-contrib-qunit");
-	grunt.loadNpmTasks("grunt-contrib-concat");
-	grunt.loadNpmTasks("grunt-contrib-watch");
-	grunt.loadNpmTasks("grunt-clear");
+            },
+            default: {
+                src: ['artifacts/dev/**/*.d.ts'],
 
-	grunt.registerTask("test", ["concat", "qunit", "jshint"]);
-	grunt.registerTask("default", ["concat", "qunit", "jshint", "uglify", "nuget"]);
 
+            }
+        },
+        jasmine: {
+            tests: {
+                src: [],
+                options: {
+                    specs: ['tests/**/*.js'],
+                    //     vendor: "node_modules/**/*.js",
+                    template: require('grunt-template-jasmine-requirejs'),
+                    templateOptions: {
+                        requireConfig: {
+                            //   baseUrl: '.grunt/grunt-contrib-jasmine/src/main/js/'
+                            paths: {
+                                "ModCheck": "artifacts/dev"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        tsd: {
+            'refresh': {
+                'options': {
+                    'command': 'reinstall',
+                    'latest': true,
+                    'config': 'tsd.json',
+                    'opts': {}
+                }
+            }
+        },
+    });
+
+    grunt.event.on('watch', function (action, filepath, target) {
+        grunt.log.writeln(target + ': ' + filepath + ' has ' + action);
+    });
 };

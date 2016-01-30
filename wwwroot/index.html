@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="style.min.css" rel="stylesheet" />
+    <script src="/libs/requirejs/require.js"></script>
+    <script>
+        require.config({
+            paths: {
+                "utils": "/libs/utils",
+                "ModCheck": "/libs/ModCheck",
+                "text": "/libs/text/text",
+                "src": "/libs",
+            }
+        });
+
+        /// Azure Portal Demo
+        //require(["siPortal/siPortalLoader",
+        //    "examples/azure-portal/AzurePortalLayout",
+        //    "examples/hello-world/helloWorldLayout",
+        //    "koExtensions/verboseConsoleBindingErrorReporter"],
+        //    function (loader, AzurePortalLayout, helloWorldLayout) {
+
+        //        var root = new loader(
+        //            {
+        //                rootLayout: new AzurePortalLayout({
+        //                    layout: new helloWorldLayout()
+        //                }),
+        //            });
+        //    });
+
+
+    </script>
+</head>
+<body>
+    <p>Hello World</p>
+</body>
+</html>
