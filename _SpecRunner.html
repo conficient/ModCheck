@@ -1,31 +1,16 @@
-<!doctype html>
+﻿<!doctype html>
 <html>
 <head>
   <meta charset="utf-8">
   <title>Jasmine Spec Runner</title>
 
-  
   <link rel="stylesheet" type="text/css" href=".grunt/grunt-contrib-jasmine/jasmine.css">
-  
-
-  
-  
-  
-
   <script src=".grunt\grunt-contrib-jasmine/require.js"></script>
-
-  
-  
   <script src=".grunt/grunt-contrib-jasmine/jasmine.js"></script>
-  
   <script src=".grunt/grunt-contrib-jasmine/jasmine-html.js"></script>
-  
   <script src=".grunt/grunt-contrib-jasmine/json2.js"></script>
-  
   <script src=".grunt/grunt-contrib-jasmine/boot.js"></script>
   
-  
-
   <script>
     require.onError = function(error) {
       var message = error.requireType + ': ';
@@ -40,9 +25,6 @@
   </script>
 
   <script>
-    
-
-    
       require.config({
   "paths": {
     "ModCheck": "artifacts/dev"
@@ -58,7 +40,7 @@
 
     function launchTest() {
     require([
-      
+      "./tests/ModCheckTests"
     ],
     function(){
       require(['.grunt/grunt-contrib-jasmine/reporter.js'], function(){
