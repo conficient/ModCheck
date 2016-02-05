@@ -6,9 +6,11 @@ var modCheck = require("../src/ModCheck");
 // var modCheck: (number,number):boolean;
 
 
-describe("Basic function", function() {
-    it("ensure modCheck is working", function() {
-
+describe("Basic function tests", function() {
+    it("test valid sortCode, account", function() {
+        expect(modCheck.AreValid(123456, 12345678)).toBe(false);
+    });
+    it("test invalid sortcode, account", function() {
         expect(modCheck.AreValid(123456, 12345678)).toBe(false);
     });
 });
