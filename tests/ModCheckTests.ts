@@ -13,6 +13,7 @@ describe("Basic function tests", function() {
     });
 });
 
+/* These tests are generated from the Excel fil /Tools/testCases.xls */
 describe("Test cases from v380", function() {
     it('1. Pass modulus 10 check.', function() { expect(modCheck.AreValid(89999, 66374958)).to.equal(true); });
     it('2. Pass modulus 11 check.', function() { expect(modCheck.AreValid(107999, 88837491)).to.equal(true); });
