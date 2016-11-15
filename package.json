@@ -1,0 +1,35 @@
+{
+  "name": "modcheck",
+  "version": "1.0.0",
+  "description": "Modulus check library for UK Bank Account and Sort Codes",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "gulp-tsb": "^2.0.2",
+    "typescript": "^2.0.9"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/conficient/ModCheck.git"
+  },
+  "keywords": [
+    "uk",
+    "bank",
+    "sort",
+    "account",
+    "modulus",
+    "check"
+  ],
+  "author": "Howard Richards",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/conficient/ModCheck/issues"
+  },
+  "homepage": "https://github.com/conficient/ModCheck#readme"
+}
