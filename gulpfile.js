@@ -12,8 +12,8 @@ var output = 'out/';
 var onError = error => { console.error('*** Error: ' + error); };
 
 var compilation = tsb.create({
-    module: 'amd',
-    inlineSourceMap: true,
+    module: 'amd', 
+    inlineSourceMap: false,
     sourceRoot: __dirname + '/src',
 		declaration: false
 }, false, false, onError);
