@@ -1,7 +1,7 @@
 // gulp modules
 var gulp = require('gulp');         // for gulp
-var typescript = require('typescript');
 var tsb = require('gulp-tsb');      // typescript compiler
+var mocha = require('gulp-mocha');  // run mocha in build
 
 // mocha and chai are installed for testing
 
