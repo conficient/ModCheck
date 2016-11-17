@@ -10,7 +10,13 @@
     "gulp-tsb": "^2.0.2",
     "typescript": "^2.0.9"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "chai": "^3.5.0",
+    "gulp": "^3.9.1",
+    "gulp-tsb": "^2.0.2",
+    "typescript": "^2.0.10"
+  },
   "scripts": {
     "test": "mocha"
   },

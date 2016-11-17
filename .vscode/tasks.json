@@ -5,5 +5,17 @@
     "command": "gulp",
     "isShellCommand": true,
     "args": ["--no-color"],
-    "showOutput": "always"
+    "showOutput": "always",
+    // TASK LIST
+    "tasks": [
+        { 
+            "taskName": "build",
+            "args": [], 
+            "isBuildCommand": true
+        },
+        { 
+            "taskName": "cleanbye",
+            "args": []
+        }
+    ]
 }
