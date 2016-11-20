@@ -1,6 +1,6 @@
 {
   "name": "modcheck",
-  "version": "1.0.0",
+  "version": "1.0.330",
   "description": "Modulus check library for UK Bank Account and Sort Codes",
   "main": "gulpfile.js",
   "directories": {
