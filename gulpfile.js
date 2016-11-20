@@ -32,7 +32,7 @@ var parseScsubtab = function(s) {
 
 var parseValacdos = function(s) {
     // create result function
-    var result = "function getMod(sc) {\n";
+    var result = "// get validation entries\nfunction getEntries(sc) {\n var r =[];\n";
     // split file into lines
     var lines = s.split('\n');
     // create function
@@ -53,10 +53,11 @@ var parseValacdos = function(s) {
             var e = parseInt(l.substr(90,3));
             if(isNaN(e)) e =0;
             result +=" if(sc >= " + sc1 + " && sc <= " + sc2 + ")\n" +
-                "  return {m: \"" + method + "\", w: " + a + ", e: " + e +"};\n";
+                "  r.push({m: \"" + method + "\", w: " + a + ", e: " + e +"});\n";
+                // m: method, w: weights, e: exception
         }
     }
-    result += " return null;\n}\n";
+    result += " return r;\n}\n";
     return result;
 };
 
