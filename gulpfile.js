@@ -3,8 +3,9 @@ var gulp = require('gulp');         // for gulp
 var tsb = require('gulp-tsb');      // typescript compiler
 var mocha = require('gulp-mocha');  // run mocha in build
 var transform = require('gulp-text-simple'); // to parse the datafiles
-// mocha and chai are installed for testing
 
+
+// mocha and chai are installed for testing
 
 // Variable Setup
 var sources = [
@@ -14,12 +15,11 @@ var sources = [
 
 var output = 'out/';
 
-// transform scsubtab.txt file into a series of if.. statements
-var transformString = function (s) {
+var parseScsubtab = function(s) {
+    // create result function start
+    var result = "function replaceSort(sc) {\n";
     // split file into lines
-    var result = "function checkSort(sc) {\n";
     var lines = s.split('\n');
-    console.log("Split into " + lines.length + " lines");
     for (var i=0; i< lines.length; i++){
         var l = lines[i];
         if(l){
@@ -29,15 +29,56 @@ var transformString = function (s) {
     result += " return sc; // use plan sort\n}\n";
     return result;
 };
- 
-// create the factory with GulpText simple 
-var myTransformation = transform(transformString);
- 
-gulp.task('parsedata', function () {
+
+var parseValacdos = function(s) {
+    console.log("pv: start, s is "+s.length);
+
+    // create result function
+    var result = "function getMod(sc) {\n";
+    // split file into lines
+    var lines = s.split('\n');
+    console.log("  " + lines.length + "lines");
+
+    for (var i=0; i< lines.length; i++){
+        var l = lines[i];
+        if(l){
+            var sc1 = parseInt(l.substr(0,6));
+            var sc2 = parseInt(l.substr(7,6));
+            var method = l.substr(14,5).trim();
+            // build array
+            var a = "[", b="";
+            for (var j=0; j<14; j++) {
+                var c = l.substr(j*5+19,5).trim();
+                a += b + c;
+                b=",";
+            }
+            a += "]";
+            var e = parseInt(l.substr(90,3));
+            if(isNaN(e)) e =0;
+            result +=" if(sc >= " + sc1 + " && sc <= " + sc2 + ")\n" +
+                "  return {m: \"" + method + "\", w: " + a + ", e: " + e +"};\n";
+        }
+    }
+    result += " return null;\n}\n";
+    return result;
+};
+
+var transformScsubtab = transform(parseScsubtab);
+var transformValacdos = transform(parseValacdos);
+
+gulp.task('parse1', function () {
     return gulp.src('data/scsubtab.txt')
-        .pipe(myTransformation()) // create the Gulp transformation and insert it into the Gulp stream 
+        .pipe(transformScsubtab()) // create the Gulp transformation and insert it into the Gulp stream 
         .pipe(gulp.dest('out/'));
 });
+
+gulp.task('parse2', function () {
+    return gulp.src('data/valacdos.txt')
+        .pipe(transformValacdos()) // create the Gulp transformation and insert it into the Gulp stream 
+        .pipe(gulp.dest('out/'));
+});
+
+
 
 
 // create and keep compiler 
