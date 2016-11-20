@@ -31,14 +31,11 @@ var parseScsubtab = function(s) {
 };
 
 var parseValacdos = function(s) {
-    console.log("pv: start, s is "+s.length);
-
     // create result function
     var result = "function getMod(sc) {\n";
     // split file into lines
     var lines = s.split('\n');
-    console.log("  " + lines.length + "lines");
-
+    // create function
     for (var i=0; i< lines.length; i++){
         var l = lines[i];
         if(l){
