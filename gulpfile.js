@@ -4,7 +4,6 @@ var tsb = require('gulp-tsb');      // typescript compiler
 var mocha = require('gulp-mocha');  // run mocha in build
 var transform = require('gulp-text-simple'); // to parse the datafiles
 
-
 // mocha and chai are installed for testing
 
 // Variable Setup
