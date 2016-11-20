@@ -1,7 +1,7 @@
 
 # ModCheck Data
 
-## Version ? - not known
+## Version 330
 
 The `scsubtab.txt` and `valcados.txt` files originate from Vocalink. These are a substitution 
 and modulus checking file respectively. These change slightly with each updated version. The 
