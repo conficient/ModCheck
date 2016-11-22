@@ -1,4 +1,6 @@
-﻿module modCheck {
+﻿import data from 'modCheckData';
+
+module modCheck {
 
     // Check sortCode and accountNumber combination
     // returns true if valid, false if invalid

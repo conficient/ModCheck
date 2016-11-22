@@ -16,8 +16,12 @@ var sources = [
 var output = 'out/';
 
 var parseScsubtab = function (s) {
+    // module wrapper
     // create result function start
-    var result = "function replaceSort(sc) {\n";
+    var result = "var modCheckData;\n" + 
+        "(function (modCheck) {\n" + 
+        "function replaceSort(sc) {\n";
+
     // split file into lines
     var lines = s.split('\n');
     for (var i = 0; i < lines.length; i++) {
@@ -61,7 +65,8 @@ var parseValacdos = function (s) {
             // m: method, w: weights, e: exception
         }
     }
-    result += "  return r;\n}\n";
+    result += "  return r;\n}\n" +
+              "})(modCheckData || (modCheckData = {}));";
     return result;
 };
 
