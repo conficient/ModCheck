@@ -19,7 +19,7 @@ var parseScsubtab = function (s) {
     // module wrapper
     // create result function start
     var result = "var modCheckData;\n" + 
-        "(function (modCheck) {\n" + 
+        "(function (modCheckData) {\n" + 
         "function replaceSort(sc) {\n";
 
     // split file into lines
@@ -91,7 +91,7 @@ gulp.task('parsedata', function(){
     var p1 = parse1();
     var p2 = parse2();
     return merge(p1,p2)
-        .pipe(concat("data.js"))
+        .pipe(concat('modCheckData.js'))
         .pipe(gulp.dest(output));
 });
 

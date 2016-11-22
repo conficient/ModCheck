@@ -1,4 +1,4 @@
-﻿import data from 'modCheckData';
+﻿// import data from './modCheckData';
 
 module modCheck {
 
