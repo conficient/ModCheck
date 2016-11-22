@@ -26,7 +26,7 @@ var parseScsubtab = function (s) {
             result += " if(sc == " + l.substr(0, 6) + ") return " + l.substr(7, 6) + ";\n";
         }
     }
-    result += " return sc; // use plan sort\n}\n";
+    result += " return sc; // use original sort code\n}\n";
     return result;
 };
 
@@ -52,12 +52,16 @@ var parseValacdos = function (s) {
             a += "]";
             var e = parseInt(l.substr(90, 3));
             if (isNaN(e)) e = 0;
-            result += " if(sc >= " + sc1 + " && sc <= " + sc2 + ")\n" +
-                "  r.push({m: \"" + method + "\", w: " + a + ", e: " + e + "});\n";
+            if(sc1 == sc2)
+                result += "  if(sc == " + sc1 + ")\n";
+            else
+                result += "  if(sc >= " + sc1 + " && sc <= " + sc2 + ")\n";
+
+            result += "    r.push({m: \"" + method + "\", w: " + a + ", e: " + e + "});\n";
             // m: method, w: weights, e: exception
         }
     }
-    result += " return r;\n}\n";
+    result += "  return r;\n}\n";
     return result;
 };
 
@@ -90,8 +94,8 @@ gulp.task('parsedata', function(){
 // create and keep compiler 
 var compilation = tsb.create({
     target: 'es5',
-    module: 'amd',
-    declaration: false
+    module: 'commonjs',
+    declaration: true
 });
 
 gulp.task('build', function () {
