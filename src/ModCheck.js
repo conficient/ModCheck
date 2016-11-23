@@ -1,6 +1,7 @@
-﻿// Check sortCode and accountNumber combination
+﻿
+// Check sortCode and accountNumber combination
 // returns true if valid, false if invalid
-function areValid(sortCode: number | string, accountNumber: number | string) {
+function areValid(sortCode, accountNumber) {
     // ensure both values are numbers
     var sc = convertToInt(sortCode);
     var ac = convertToInt(accountNumber);
@@ -8,8 +9,8 @@ function areValid(sortCode: number | string, accountNumber: number | string) {
     throw "not implemented";
 }
 
-function convertToInt(value: number|string){
-    if(typeof(value)==="number")
+function convertToInt() {
+    if (typeof (value) === "number")
         return value;
     return parseInt(value);
 }
