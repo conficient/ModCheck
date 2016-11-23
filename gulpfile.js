@@ -2,6 +2,7 @@
 var gulp = require('gulp');         // for gulp
 var tsb = require('gulp-tsb');      // typescript compiler
 var mocha = require('gulp-mocha');  // run mocha in build
+var util = require('gulp-util');   // used in unit tests and others
 var transform = require('gulp-text-simple'); // to parse the datafiles
 var merge = require('merge-stream');         // merges gulp streams
 var concat = require('gulp-concat');    // to combine files into one
@@ -73,6 +74,9 @@ var parseValacdos = function (s) {
 var transformScsubtab = transform(parseScsubtab);
 var transformValacdos = transform(parseValacdos);
 
+///
+/// transform the scsubtabfile into JS file
+///
 function parse1() {
     return gulp.src('data/scsubtab.txt')
         // create the Gulp transformati)on and insert it into the Gulp stream 
@@ -80,6 +84,9 @@ function parse1() {
     //.pipe(gulp.dest('out/'));
 }
 
+//
+// transform the valacdos file into JS
+//
 function parse2() {
     return gulp.src('data/valacdos.txt')
          // create the Gulp transformation and insert it into the Gulp stream 
@@ -87,6 +94,7 @@ function parse2() {
     //.pipe(gulp.dest('out/'));
 }
 
+// task: parse both data files and merge
 gulp.task('parsedata', function(){
     var p1 = parse1();
     var p2 = parse2();
@@ -99,12 +107,21 @@ gulp.task('parsedata', function(){
 // create and keep compiler 
 var compilation = tsb.create({
     target: 'es5',
-    module: 'commonjs',
-    declaration: true
+    module: 'commonjs'
 });
 
 gulp.task('build', function () {
     return gulp.src(sources)
         .pipe(compilation()) // <- new compilation 
         .pipe(gulp.dest(output));
+});
+
+gulp.task('test', function () {
+    return gulp.src(['tests/**/*.js'], { read: false })
+        .pipe(mocha({ reporter: 'spec' }))
+        .on('error', util.log);
+});
+ 
+gulp.task('watch-test', function () {
+    gulp.watch(['views/**', 'public/**', 'app.js', 'framework/**', 'test/**'], ['test']);
 });
