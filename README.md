@@ -4,7 +4,7 @@
 ModCheck is a modulus check library for validating UK Bank account number and sort code combinations.
 
 The specification, data and test cases are available at 
-[Vocalink](https://www.vocalink.com/customer-support/modulus-checking/).
+[Vocalink](https://www.vocalink.com/customer-support/modulus-checking/) who control the standard.
 
 ## todo: Build
 
