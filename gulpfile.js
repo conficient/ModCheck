@@ -44,7 +44,7 @@ gulp.task('parsedata', function(){
     var p1 = parse1();
     var p2 = parse2();
     return merge(p1,p2)
-        .pipe(concat("data.js"))
+        .pipe(concat('modCheckData.js'))
         .pipe(gulp.dest(output));
 });
 
@@ -52,8 +52,7 @@ gulp.task('parsedata', function(){
 // create and keep compiler 
 var compilation = tsb.create({
     target: 'es5',
-    module: 'commonjs',
-    declaration: false
+    module: 'commonjs'
 });
 
 gulp.task('build', function () {
