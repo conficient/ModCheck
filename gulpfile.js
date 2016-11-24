@@ -1,6 +1,5 @@
 // gulp modules
 var gulp = require('gulp');         // for gulp
-var tsb = require('gulp-tsb');      // typescript compiler
 var mocha = require('gulp-mocha');  // run mocha in build
 var util = require('gulp-util');   // used in unit tests and others
 var transform = require('gulp-text-simple'); // to parse the datafiles
@@ -46,13 +45,6 @@ gulp.task('parsedata', function(){
     return merge(p1,p2)
         .pipe(concat('modCheckData.js'))
         .pipe(gulp.dest(output));
-});
-
-
-// create and keep compiler 
-var compilation = tsb.create({
-    target: 'es5',
-    module: 'commonjs'
 });
 
 gulp.task('build', function () {
