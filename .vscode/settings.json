@@ -1,3 +1,7 @@
 {
+    "files.exclude": {
+        "**/.git": true,
+        "node_modules": true
+    },
     "typescript.check.workspaceVersion": false
 }
