@@ -18,30 +18,14 @@ var output = 'out/';
 // import the data-parser module
 var parseData = require("./data/parseData.js");
 
-///
-/// transform the scsubtabfile into JS file
-///
-function parse1() {
-    return gulp.src('data/scsubtab.txt')
-        // create the Gulp transformati)on and insert it into the Gulp stream 
-        .pipe(parseData.transformScsubtab());
-    //.pipe(gulp.dest('out/'));
-}
-
-//
-// transform the valacdos file into JS
-//
-function parse2() {
-    return gulp.src('data/valacdos.txt')
-         // create the Gulp transformation and insert it into the Gulp stream 
-        .pipe(parseData.transformValacdos());
-    //.pipe(gulp.dest('out/'));
-}
-
 // task: parse both data files and merge
 gulp.task('parsedata', function(){
-    var p1 = parse1();
-    var p2 = parse2();
+    // scsubtab datafile
+    var p1 = gulp.src('data/scsubtab.txt')
+        .pipe(parseData.transformScsubtab());
+    // valacdos datafile
+    var p2 = gulp.src('data/valacdos.txt')
+        .pipe(parseData.transformValacdos());
     return merge(p1,p2)
         .pipe(concat('modCheckData.js'))
         .pipe(gulp.dest(output));
