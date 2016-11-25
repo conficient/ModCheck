@@ -17,11 +17,13 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
     "gulp-concat": "^2.6.1",
     "gulp-mocha": "^3.0.1",
     "gulp-text-simple": "^0.4.0",
     "gulp-util": "^3.0.7",
     "merge-stream": "^1.0.0",
+    "merge2": "^1.0.2",
     "mocha": "^3.1.2"
   },
   "scripts": {
