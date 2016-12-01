@@ -30,17 +30,24 @@ function convertToInt(value) {
 
 exports.areValid = areValid;
 
+/**
+ * Get the validator to use
+ * @param {number} sort - Sort code as numeric
+ * @param {number} account - Account as numeric
+ * @param {any[]} entries - one or two entries, with method, weights, exception.
+ */
+
 function validate(sort, account, entries) {
     var e0 = entries[0];
     var e1 = entries[1];
     // create validator for each entry 
     var v1 = getValidator(sort, account, e0);
     var v2 = getValidator(sort, account, e1);
-    var hasSecond = !(!v2);
+    var noSecond = (!v2);
     var result1 = v1.isValid(sort, account, e0);
 
     // if no other check, this is fine
-    if (!hasSecond) return result1;
+    if (noSecond) return result1;
 
     // some cases validate on first instance only
     var both = v1.bothChecksRequired();
@@ -53,6 +60,12 @@ function validate(sort, account, entries) {
         return result2;
 }
 
+/**
+ * Get the validator to use
+ * @param {number} sort - Sort code as numeric
+ * @param {number} account - Account as numeric
+ * @param {any} entry - entry with method, weights, exception.
+ */
 function getValidator(sort, account, entry) {
     // if no entry, no validator
     if (!entry) null;
@@ -110,7 +123,12 @@ function Ex1() {
 function Ex2() {
     var r = SingleCheck();
     // override this method
-    r.getWeights = function (sort, account, entry) {
+    /**
+     * exception2 override
+     * @param {any} entry - entry
+     * @param {string} ac - account as string
+     */
+    r.getWeights = function (entry, ac) {
         var a = r.getColValue(ac, 0);
         if (a != 0) {
             var g = r.getColValue(ac, 6);
@@ -127,16 +145,16 @@ function Ex2() {
 
 function Ex3() {
     var r = new baseValidator();
-    r.isCheckRequired = function(ac) {
+    r.isCheckRequired = function (ac) {
         var c = r.getColValue(ac, 2);
-        return !(c == 6 || c==9);
+        return !(c == 6 || c == 9);
     }
     return false;
 }
 
 function Ex4() {
-     var r = new baseValidator();
-    r.getExpectedRemainder = function(ac, method) {
+    var r = new baseValidator();
+    r.getExpectedRemainder = function (ac, method) {
         var g = this.GetColValue(ac, 6);
         var h = this.GetColValue(ac, 7);
         return (g * 10) + h;
@@ -144,15 +162,52 @@ function Ex4() {
 }
 
 function Ex5() {
-    return false;
+    var r = new baseValidator();
+    // overrides
+    r.getValues = function(){
+
+    };
+    r.getExpectedRemainder = function (ac, method) {
+        var g = this.GetColValue(ac, 6);
+        var h = this.GetColValue(ac, 7);
+        return (g * 10) + h;
+    };
+    return r;
 }
 
 function Ex6() {
-    return false;
+     var r = new baseValidator();
+    // override isCheckRequired
+    r.isCheckRequired = function(ac) {
+         var a = this.GetColValue(ac, 0);
+        if (a >= 4 && a <= 8) {
+            var g = this.GetColValue(ac, 6);
+            var h = this.GetColValue(ac, 7);
+            if (g == h)
+                return false;
+        }
+        return true;
+    };
+    return r;
 }
 
 function Ex7() {
-    return false;
+    var r = new baseValidator();
+
+    // override getWeights
+    r.getWeights = function (entry, ac) {
+        var g = this.GetColValue(ac, 6);
+        if (g == 9) {
+            var t = [];
+            for (var i = 0; i < 14; i++) {
+                t[i] = (i < 8) ? 0 : this.Entry.w[i];
+            }
+            return t;
+        }
+        return this.Entry.w;
+    }
+
+    return r;
 }
 
 function Ex8() {
@@ -263,12 +318,21 @@ var baseValidator = (function () {
         return r;
     }
 
+    /**
+     * return value of digit at column i in string ac
+     * @param {string} ac - account as string
+     * @param {number} i - index within the string
+     */
     baseValidator.prototype.getColValue = function (ac, i) {
         var c = ac.substr(i, 1);
         return parseInt(c);
     }
 
-    // pad number v with leading zeros to length d
+    /**
+     * pad number v with leading zeros to length d
+     * @param {number} v - numeric value
+     * @param {number} d - digits required, e.g. 6 or 8
+     */
     baseValidator.prototype.pad = function (v, d) {
         var s = v + "";
         while (s.length < d) {
@@ -279,7 +343,12 @@ var baseValidator = (function () {
 
     // OVERRIDABLE METHODS BELOW
 
-    baseValidator.prototype.getWeights = function (entry, account) {
+    /**
+     * return the weights for this entry
+     * @param {any} entry - entry to use
+     * +@param {string} ac - account in string form
+     */
+    baseValidator.prototype.getWeights = function (entry, ac) {
         return entry.w;
     }
 
