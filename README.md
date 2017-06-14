@@ -22,7 +22,7 @@ ModCheck has a single method `areValid(sortCode, accountNumber)`
 | parameter       | usage       |           
 | -------------   |-------------| 
 | `sortCode`      | number or string containing bank sort code, e.g. 102030 - should be six digits | 
-| `accountNumber` | ccount number in string or numeric form      | 
+| `accountNumber` | account number in string or numeric form      | 
 
 
 If the sortCode or accountNumber are invalid (e.g. sort should be six digits, 
