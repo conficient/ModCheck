@@ -2,11 +2,12 @@
 var gulp = require('gulp');         // for gulp
 var clean = require('gulp-clean');  // to clean out folder
 var mocha = require('gulp-mocha');  // run mocha in build
-var util = require('gulp-util');   // used in unit tests and others
-var transform = require('gulp-text-simple'); // to parse the datafiles
-//var merge = require('merge-stream');         // merges gulp streams
+var util = require('gulp-util');    // used in unit tests and others
+var transform = require('gulp-text-simple');    // to parse the datafiles
+//var merge = require('merge-stream');          // merges gulp streams
 var merge = require('merge2');
 var concat = require('gulp-concat');    // to combine files into one
+
 // mocha and chai are installed for testing
 
 // Variable Setup
